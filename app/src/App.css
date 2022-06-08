@@ -1,8 +1,6 @@
-
-.cp{
- cursor: pointer;
+.cp {
+  cursor: pointer;
 }
-<<<<<<< HEAD
 
 /* @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -33,5 +31,3 @@
     transform: rotate(360deg);
   }
 } */
-=======
->>>>>>> fbda504bb50dc2c26f5a364d4ec0569f8bd331ef

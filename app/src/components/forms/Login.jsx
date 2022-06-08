@@ -1,73 +1,31 @@
 
-import React, { Component } from 'react';
-import InputBox from './Input';
+import React from 'react';
+import Joi from 'joi-browser';
+import RForm from './ReusableForm';
 
-class LoginFrom extends Component {
+class LoginFrom extends RForm {
     state = {
-        account: { username: '', password: '' }, errors: {}
+        data: { username: '', password: '' },
+        errors: {}
     }
 
-    validate = () => {
-        let errors = {}
-        const { username, password } = this.state.account
-        if (username.trim() === '') errors.username = 'Username is required'
-        if (password.trim() === '') errors.password = 'Password is required'
-        return Object.keys(errors).length === 0 ? null : errors;
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const errors = this.validate()
-        this.setState({ errors: errors || {} })
-        console.log(errors)
-        if (errors) return;
-    }
-
-    validateProperty = ({ name, value }) => {
-        if (name === 'username') {
-            if (value.trim() === '') return 'Username is required'
-        }
-        if (name === 'password') {
-            if (value.trim() === '') return 'Password is required'
-        }
-
-    }
-
-    handleInputChange = ({ currentTarget: input }) => {
-
-        const errors = { ...this.state.errors }
-        const errMsg = this.validateProperty(input)
-        if (errMsg) errors[input.name] = errMsg
-        else delete errors[input.name];
-
-        let account = { ...this.state.account }
-        account[input.name] = input.value
-
-        this.setState({ account, errors })
+    schema = {
+        username: Joi.string().min(10).max(20).required().label('Username'),
+        password: Joi.string().min(8).required().label('Password')
     }
 
     render() {
 
-        const { account, errors } = this.state
-
         return (
-            <form onSubmit={this.handleSubmit}>
-                <InputBox
-                    label='Username'
-                    name='username'
-                    onChange={this.handleInputChange}
-                    value={account.username}
-                    error={errors.username}
-                />
-                <InputBox
-                    label='Password'
-                    name='password'
-                    onChange={this.handleInputChange}
-                    value={account.password}
-                    error={errors.password}
-                />
-                <button className="btn btn-primary">Login</button>
-            </form>
+
+            <React.Fragment>
+                <h1>Login</h1>
+                <form onSubmit={this.handleSubmit}>
+                    {this.renderInput('username', 'Username')}
+                    {this.renderInput('password', 'Password', 'password')}
+                    {this.renderButton('Login')}
+                </form>
+            </React.Fragment>
         );
     }
 }
@@ -96,23 +54,11 @@ export default LoginFrom;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// let errors = {}
+// const { username, password } = this.state.account
+// if (username.trim() === '') errors.username = 'Username is required'
+// if (password.trim() === '') errors.password = 'Password is required'
+// return Object.keys(errors).length === 0 ? null : errors;
 
  // alert(this.state.account.username + "|" + this.state.account.password)
         // console.log(this.username.current.value)
